@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Blog admin · The Paragons</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%91%91%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--deep:#260033;--mag:#9900cc;--ink:#1a0024;--mute:#6a5775;--line:#e8dff0;--soft:#f7f2fa;color-scheme:light}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;background:var(--soft);color:var(--ink);font:400 16px/1.6 "DM Sans",system-ui,sans-serif;padding-bottom:env(safe-area-inset-bottom,0px)}
+h1,h2,h3{font-family:"Bricolage Grotesque",system-ui,sans-serif;margin:0;letter-spacing:-.02em;color:var(--deep)}
+.top{background:linear-gradient(150deg,#3a0050,#14001c);color:#fff;padding:calc(22px + env(safe-area-inset-top,0px)) 20px 70px}
+.top-in{max-width:880px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:12px}.brand b{font:800 1.3rem "Bricolage Grotesque",sans-serif;color:#fff}.brand span{display:block;font-size:.8rem;color:#d9bfe8}
+.site{color:#fff;text-decoration:none;font-weight:600;font-size:.92rem;border:1px solid rgba(255,255,255,.4);border-radius:99px;padding:9px 16px}.site:hover{background:#fff;color:var(--deep)}
+.wrap{max-width:880px;margin:-44px auto 60px;padding:0 16px;display:grid;gap:18px}
+.card{background:#fff;border:1px solid var(--line);border-radius:26px;padding:26px;box-shadow:0 18px 50px rgba(38,0,51,.08)}
+.card h2{font-size:1.5rem;margin-bottom:4px}.hint{color:var(--mute);font-size:.92rem;margin:0 0 18px}
+label{display:block;font-weight:700;font-size:.9rem;color:var(--deep);margin:0 0 6px}
+input[type=text],input[type=password],textarea{width:100%;border:1.5px solid var(--line);border-radius:14px;padding:13px 15px;font:inherit;color:var(--ink);background:#fff;transition:border-color .2s,box-shadow .2s}
+input:focus,textarea:focus{outline:none;border-color:var(--mag);box-shadow:0 0 0 4px rgba(153,0,204,.12)}
+textarea{min-height:320px;resize:vertical;line-height:1.7}
+.field{margin-bottom:18px}
+.tools{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:8px}
+.tools button,.tab{border:1.5px solid var(--line);background:#fff;color:var(--deep);border-radius:12px;padding:8px 14px;font:700 .85rem "DM Sans",sans-serif;cursor:pointer;transition:all .2s}
+.tools button:hover,.tab:hover{border-color:var(--mag);color:var(--mag)}
+.tabs{margin-left:auto;display:flex;gap:6px}.tab.on{background:var(--deep);color:#fff;border-color:var(--deep)}
+.help{font-size:.85rem;color:var(--mute);margin:8px 0 0;background:var(--soft);border-radius:12px;padding:10px 14px}
+.help code{background:#fff;border:1px solid var(--line);border-radius:6px;padding:1px 6px;font-size:.85em}
+.pv{border:1.5px dashed var(--line);border-radius:14px;padding:20px 22px;min-height:200px;display:none}
+.pv h2{font-size:1.5rem;margin:1.4em 0 .5em}.pv p{margin:0 0 1.1em;font-size:1.05rem;line-height:1.8;color:#2c2234}.pv a{color:var(--mag);font-weight:600}
+.pv .bl-q{margin:1.4em 0;padding:4px 0 4px 18px;border-left:4px solid var(--mag);font:700 1.2rem/1.4 "Bricolage Grotesque",sans-serif;color:var(--deep)}
+.pv .bl-l{margin:0 0 1.2em;padding-left:1.4em}.pv .bl-l li{margin-bottom:.4em;line-height:1.7}.pv .bl-l li::marker{color:var(--mag)}
+.pv .ptitle{font:800 1.9rem/1.15 "Bricolage Grotesque",sans-serif;color:var(--deep);margin:0 0 .6em}.pv img{display:block;width:100%;border-radius:18px;margin:0 0 1.2em}
+.drop{border:2px dashed #d9bfe8;border-radius:18px;padding:22px;text-align:center;color:var(--mute);cursor:pointer;background:#fcf9fe;transition:all .2s}
+.drop:hover,.drop.over{border-color:var(--mag);background:#f7ebfd;color:var(--deep)}.drop b{color:var(--mag)}
+.imgp{display:none;gap:14px;align-items:center;margin-top:12px}.imgp img{width:120px;height:80px;object-fit:cover;border-radius:12px;border:1px solid var(--line)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:99px;padding:14px 28px;font:700 1rem "DM Sans",sans-serif;cursor:pointer;color:#fff;background:linear-gradient(135deg,#9900cc,#260033);box-shadow:0 8px 22px rgba(153,0,204,.35);transition:transform .2s,box-shadow .2s}
+.btn{text-decoration:none}.btn:hover{transform:translateY(-2px)}.btn:disabled{opacity:.6;cursor:default;transform:none}
+.btn.o{background:#fff;color:var(--deep);border:1.5px solid var(--deep);box-shadow:none}.btn.sm{padding:8px 16px;font-size:.85rem}.btn.red{background:#fff;color:#b00020;border:1.5px solid #f0c4cc;box-shadow:none}.btn.red:hover{background:#b00020;color:#fff}
+.actions{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:8px}
+.msg{margin:14px 0 0;padding:12px 16px;border-radius:14px;font-weight:600;display:none}.msg.ok{display:block;background:#e7f8ee;color:#0b5a2b}.msg.err{display:block;background:#fdecef;color:#8a0f23}
+.msg a{color:inherit;text-decoration:underline}
+.row{display:flex;align-items:center;gap:14px;padding:14px 0;border-top:1px solid var(--line)}.row:first-child{border-top:0}
+.row .t{flex:1;min-width:0}.row .t b{display:block;font:700 1rem "Bricolage Grotesque",sans-serif;color:var(--deep);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.row .t small{color:var(--mute)}
+.row .b{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}.empty{color:var(--mute);margin:0}
+.pass{display:none;margin-bottom:18px;background:#fff8e6;border:1px solid #f2dd9b;border-radius:16px;padding:14px 16px}.pass.on{display:block}
+@media(max-width:600px){.card{padding:20px 16px;border-radius:22px}.row{flex-wrap:wrap}.row .b{width:100%;justify-content:flex-start}.tabs{margin-left:0}textarea{min-height:260px}}
+</style>
+</head>
+<body>
+<header class="top"><div class="top-in"><div class="brand"><span style="font-size:1.8rem" aria-hidden="true">👑</span><div><b>Blog admin</b><span>The Paragons</span></div></div><a class="site" href="/#blog" target="_blank" rel="noopener">View the blog</a></div></header>
+<main class="wrap">
+<section class="card" id="formcard">
+<h2 id="ftitle">Write a new post</h2>
+<p class="hint">Fill in the title and the article, add a picture if you like, then press Publish. It shows on the website straight away.</p>
+<div class="pass" id="pass"><label for="pw">This admin needs a passcode</label><input type="password" id="pw" placeholder="Enter the passcode" autocomplete="off"></div>
+<div class="field"><label for="title">Title</label><input type="text" id="title" maxlength="140" placeholder="Give your post a clear title" autocomplete="off"></div>
+<div class="field"><label>Picture <span style="font-weight:500;color:var(--mute)">(optional)</span></label>
+<div class="drop" id="drop" tabindex="0" role="button" aria-label="Add a picture"><b>Tap to add a picture</b><br>or drag one here. JPG, PNG, WEBP or GIF.</div>
+<input type="file" id="file" accept="image/jpeg,image/png,image/webp,image/gif" hidden>
+<div class="imgp" id="imgp"><img id="imgprev" alt="Selected picture preview"><button type="button" class="btn o sm" id="imgrm">Remove picture</button></div></div>
+<div class="field"><label for="body">Article</label>
+<div class="tools"><button type="button" data-f="h" title="Heading">Heading</button><button type="button" data-f="b" title="Bold">Bold</button><button type="button" data-f="l" title="Bullet list">Bullets</button><button type="button" data-f="q" title="Highlighted line">Highlight</button>
+<span class="tabs"><button type="button" class="tab on" id="tw">Write</button><button type="button" class="tab" id="tp">Preview</button></span></div>
+<textarea id="body" placeholder="Write or paste your article here. Press Enter to start a new paragraph."></textarea>
+<div class="pv" id="pv" aria-live="polite"></div>
+<p class="help">Press Enter for each new paragraph. Start a line with <code>##</code> for a heading, <code>-</code> for a bullet, or <code>&gt;</code> for a highlighted line. Put <code>**double stars**</code> around words to make them bold. Web links turn clickable by themselves.</p></div>
+<div class="actions"><button type="button" class="btn" id="pub">Publish post</button><button type="button" class="btn o" id="cancel" style="display:none">Cancel editing</button></div>
+<div class="msg" id="msg" role="status"></div>
+</section>
+<section class="card"><h2>Your posts</h2><p class="hint">Posts you publish here. Edit or delete them any time.</p><div id="list"><p class="empty">Loading…</p></div></section>
+</main>
+<script>
+function parseBody(text){var blocks=[],list=null,lines=String(text).replace(/\r/g,'').split('\n');for(var i=0;i<lines.length;i++){var t=lines[i].trim(),m;if(!t){list=null;continue}
+if(m=/^##\s+(.*)$/.exec(t)){list=null;blocks.push({t:'h',x:m[1]});continue}
+if(m=/^[-*\u2022]\s+(.*)$/.exec(t)){if(!list){list={t:'ul',items:[]};blocks.push(list)}list.items.push(m[1]);continue}
+if(m=/^>\s?(.*)$/.exec(t)){list=null;blocks.push({t:'q',x:m[1]});continue}
+list=null;blocks.push({t:'p',x:t})}return blocks}
+function inlineTokens(s){var out=[],re=/\*\*([^*]+)\*\*|(https?:\/\/[^\s<]+[^\s<.,;:!?)\]])/g,i=0,m;while(m=re.exec(s)){if(m.index>i)out.push({t:'t',x:s.slice(i,m.index)});if(m[1])out.push({t:'b',x:m[1]});else out.push({t:'a',x:m[2]});i=re.lastIndex}if(i<s.length)out.push({t:'t',x:s.slice(i)});return out}
+function fillInline(node,s){inlineTokens(s).forEach(function(k){if(k.t==='t')node.appendChild(document.createTextNode(k.x));else if(k.t==='b'){var b=document.createElement('strong');b.textContent=k.x;node.appendChild(b)}else{var a=document.createElement('a');a.href=k.x;a.textContent=k.x;a.target='_blank';a.rel='noopener noreferrer';node.appendChild(a)}})}
+function renderBody(text){var f=document.createDocumentFragment();parseBody(text).forEach(function(b){var e;if(b.t==='h'){e=document.createElement('h2');fillInline(e,b.x)}else if(b.t==='q'){e=document.createElement('blockquote');e.className='bl-q';fillInline(e,b.x)}else if(b.t==='ul'){e=document.createElement('ul');e.className='bl-l';b.items.forEach(function(it){var li=document.createElement('li');fillInline(li,it);e.appendChild(li)})}else{e=document.createElement('p');fillInline(e,b.x)}f.appendChild(e)});return f}
+
+(function(){
+var API='/api/posts',$=function(i){return document.getElementById(i)};
+var title=$('title'),body=$('body'),file=$('file'),drop=$('drop'),imgp=$('imgp'),imgprev=$('imgprev'),msg=$('msg'),pub=$('pub'),cancel=$('cancel'),list=$('list'),pv=$('pv'),pass=$('pass'),pw=$('pw');
+var editing=null,image=undefined,existingImage=null,passcode='';
+try{passcode=localStorage.getItem('paragonsAdminPass')||''}catch(e){}
+pw.value=passcode;pw.addEventListener('input',function(){passcode=pw.value;try{localStorage.setItem('paragonsAdminPass',passcode)}catch(e){}});
+
+function say(t,k,html){msg.className='msg '+(k||'ok');if(html){msg.innerHTML='';msg.appendChild(html)}else msg.textContent=t}
+function hideMsg(){msg.className='msg';msg.textContent=''}
+function api(path,opt){opt=opt||{};opt.headers=Object.assign({'content-type':'application/json'},opt.headers||{});if(passcode)opt.headers['x-admin-passcode']=passcode;
+ return fetch(path,opt).then(function(r){return r.text().then(function(t){var d=null;try{d=JSON.parse(t)}catch(e){}
+  if(r.status===401){pass.classList.add('on');throw new Error('Please enter the passcode above, then try again.')}
+  if(!r.ok||d===null)throw new Error((d&&d.error)||'The blog service is not available yet. Please check that the site is deployed on Netlify with the blog service enabled.');return d})})}
+
+/* ---------- toolbar ---------- */
+function wrapSel(a,z){var s=body.selectionStart,e=body.selectionEnd,v=body.value,sel=v.slice(s,e)||'bold text';body.value=v.slice(0,s)+a+sel+z+v.slice(e);body.focus();body.setSelectionRange(s+a.length,s+a.length+sel.length)}
+function prefixLines(p){var v=body.value,s=body.selectionStart,e=body.selectionEnd,a=v.lastIndexOf('\n',s-1)+1,b=v.indexOf('\n',e);if(b<0)b=v.length;var chunk=v.slice(a,b).split('\n').map(function(l){return l.trim()?(l.indexOf(p)===0?l.slice(p.length):p+l):l}).join('\n');body.value=v.slice(0,a)+chunk+v.slice(b);body.focus();body.setSelectionRange(a,a+chunk.length)}
+document.querySelector('.tools').addEventListener('click',function(e){var b=e.target.closest('button[data-f]');if(!b)return;var f=b.dataset.f;if(f==='b')wrapSel('**','**');else prefixLines(f==='h'?'## ':f==='l'?'- ':'> ')});
+
+/* ---------- preview ---------- */
+function showTab(p){$('tw').classList.toggle('on',!p);$('tp').classList.toggle('on',p);body.style.display=p?'none':'block';pv.style.display=p?'block':'none';
+ if(p){pv.innerHTML='';var t=document.createElement('p');t.className='ptitle';t.textContent=title.value||'Your title';pv.appendChild(t);if(image){var im=document.createElement('img');im.src=image;im.alt='';pv.appendChild(im)}else if(image===undefined&&existingImage){var im2=document.createElement('img');im2.src=existingImage;im2.alt='';pv.appendChild(im2)}
+ pv.appendChild(renderBody(body.value||'Your article will appear here.'))}}
+$('tw').onclick=function(){showTab(false)};$('tp').onclick=function(){showTab(true)};
+
+/* ---------- picture ---------- */
+function setPreview(src){if(src){imgprev.src=src;imgp.style.display='flex';drop.style.display='none'}else{imgp.style.display='none';drop.style.display='block';imgprev.removeAttribute('src')}}
+function shrink(f){return new Promise(function(res,rej){var url=URL.createObjectURL(f),im=new Image();im.onload=function(){var max=1600,s=Math.min(1,max/Math.max(im.width,im.height)),w=Math.round(im.width*s),h=Math.round(im.height*s),c=document.createElement('canvas');c.width=w;c.height=h;var x=c.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,w,h);x.drawImage(im,0,0,w,h);URL.revokeObjectURL(url);res(c.toDataURL('image/jpeg',.85))};im.onerror=function(){URL.revokeObjectURL(url);rej(new Error('That picture could not be opened.'))};im.src=url})}
+function pick(f){if(!f)return;if(!/^image\//.test(f.type)){say('Please choose a picture file.','err');return}hideMsg();shrink(f).then(function(d){image=d;setPreview(d)}).catch(function(e){say(e.message,'err')})}
+drop.onclick=function(){file.click()};drop.onkeydown=function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();file.click()}};
+file.onchange=function(){pick(file.files[0]);file.value=''};
+['dragenter','dragover'].forEach(function(n){drop.addEventListener(n,function(e){e.preventDefault();drop.classList.add('over')})});
+['dragleave','drop'].forEach(function(n){drop.addEventListener(n,function(e){e.preventDefault();drop.classList.remove('over')})});
+drop.addEventListener('drop',function(e){pick(e.dataTransfer.files[0])});
+$('imgrm').onclick=function(){image=existingImage?null:undefined;setPreview(null)};
+
+/* ---------- form state ---------- */
+function reset(){editing=null;image=undefined;existingImage=null;title.value='';body.value='';setPreview(null);$('ftitle').textContent='Write a new post';pub.textContent='Publish post';cancel.style.display='none';showTab(false)}
+cancel.onclick=function(){reset();hideMsg()};
+
+pub.onclick=function(){hideMsg();var t=title.value.trim(),b=body.value.trim();if(!t){say('Please add a title.','err');title.focus();return}if(!b){say('Please write the article.','err');body.focus();return}
+ var payload={title:t,body:b};if(image!==undefined)payload.image=image;
+ pub.disabled=true;var wasEdit=!!editing;pub.textContent=wasEdit?'Saving…':'Publishing…';
+ api(wasEdit?API+'/'+editing:API,{method:wasEdit?'PUT':'POST',body:JSON.stringify(payload)}).then(function(p){
+  var span=document.createElement('span');span.appendChild(document.createTextNode(wasEdit?'Saved! ':'Published! '));var a=document.createElement('a');a.href='/#post-'+p.id;a.target='_blank';a.rel='noopener';a.textContent='View the post';span.appendChild(a);say('','ok',span);reset();load()
+ }).catch(function(e){say(e.message,'err')}).then(function(){pub.disabled=false;pub.textContent=editing?'Save changes':'Publish post'})};
+
+/* ---------- list ---------- */
+function fmt(iso){try{return new Date(iso).toLocaleDateString(undefined,{day:'numeric',month:'short',year:'numeric'})}catch(e){return''}}
+function load(){api(API).then(function(posts){list.innerHTML='';if(!posts.length){var p=document.createElement('p');p.className='empty';p.textContent='No posts yet. Your first one will show here.';list.appendChild(p);return}
+ posts.forEach(function(p){var r=document.createElement('div');r.className='row';var t=document.createElement('div');t.className='t';var b=document.createElement('b');b.textContent=p.title;var s=document.createElement('small');s.textContent=fmt(p.created);t.appendChild(b);t.appendChild(s);
+  var bs=document.createElement('div');bs.className='b';
+  var v=document.createElement('a');v.className='btn o sm';v.href='/#post-'+p.id;v.target='_blank';v.rel='noopener';v.textContent='View';
+  var ed=document.createElement('button');ed.type='button';ed.className='btn o sm';ed.textContent='Edit';ed.onclick=function(){edit(p.id)};
+  var del=document.createElement('button');del.type='button';del.className='btn red sm';del.textContent='Delete';del.onclick=function(){remove(p,del)};
+  bs.appendChild(v);bs.appendChild(ed);bs.appendChild(del);r.appendChild(t);r.appendChild(bs);list.appendChild(r)})
+ }).catch(function(e){list.innerHTML='';var p=document.createElement('p');p.className='empty';p.textContent=e.message;list.appendChild(p)})}
+function edit(id){hideMsg();api(API+'/'+id).then(function(p){reset();editing=p.id;title.value=p.title;body.value=p.body;existingImage=p.image||null;image=undefined;setPreview(existingImage);$('ftitle').textContent='Edit post';pub.textContent='Save changes';cancel.style.display='inline-flex';window.scrollTo({top:0,behavior:'smooth'})}).catch(function(e){say(e.message,'err')})}
+function remove(p,btn){if(btn.dataset.sure!=='1'){btn.dataset.sure='1';btn.textContent='Tap again to delete';setTimeout(function(){btn.dataset.sure='';btn.textContent='Delete'},4000);return}
+ btn.disabled=true;api(API+'/'+p.id,{method:'DELETE'}).then(function(){if(editing===p.id)reset();say('Post deleted.','ok');load()}).catch(function(e){btn.disabled=false;say(e.message,'err')})}
+load();
+})();
+</script>
+</body>
+</html>
