@@ -50,11 +50,14 @@ textarea{min-height:320px;resize:vertical;line-height:1.7}
 .row .b{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}.empty{color:var(--mute);margin:0}
 .pass{display:none;margin-bottom:18px;background:#fff8e6;border:1px solid #f2dd9b;border-radius:16px;padding:14px 16px}.pass.on{display:block}
 @media(max-width:600px){.card{padding:20px 16px;border-radius:22px}.row{flex-wrap:wrap}.row .b{width:100%;justify-content:flex-start}.tabs{margin-left:0}textarea{min-height:260px}}
+.mtabs{display:flex;gap:8px;background:#fff;border:1px solid var(--line);border-radius:99px;padding:6px;box-shadow:0 10px 30px rgba(38,0,51,.08)}
+.mt{flex:1;border:0;background:none;border-radius:99px;padding:11px 16px;font:700 .95rem "DM Sans",sans-serif;color:var(--mute);cursor:pointer;transition:all .2s}.mt:hover{color:var(--mag)}.mt.on{background:linear-gradient(135deg,#9900cc,#260033);color:#fff;box-shadow:0 6px 16px rgba(153,0,204,.3)}
+#sec-blog,#sec-nug{display:grid;gap:18px}.row .th{flex:none;width:56px;height:70px;object-fit:cover;border-radius:10px;border:1px solid var(--line);background:var(--soft)}
 </style>
 </head>
 <body>
 <header class="top"><div class="top-in"><div class="brand"><span style="font-size:1.8rem" aria-hidden="true">👑</span><div><b>Blog admin</b><span>The Paragons</span></div></div><a class="site" href="/#blog" target="_blank" rel="noopener">View the blog</a></div></header>
-<main class="wrap">
+<main class="wrap"><nav class="mtabs" role="tablist" aria-label="What to manage"><button type="button" class="mt on" data-s="blog" role="tab" aria-selected="true">Blog posts</button><button type="button" class="mt" data-s="nug" role="tab" aria-selected="false">Daily nuggets</button></nav><div id="sec-blog">
 <section class="card" id="formcard">
 <h2 id="ftitle">Write a new post</h2>
 <p class="hint">Fill in the title and the article, add a picture if you like, then press Publish. It shows on the website straight away.</p>
@@ -74,7 +77,19 @@ textarea{min-height:320px;resize:vertical;line-height:1.7}
 <div class="msg" id="msg" role="status"></div>
 </section>
 <section class="card"><h2>Your posts</h2><p class="hint">Posts you publish here. Edit or delete them any time.</p><div id="list"><p class="empty">Loading…</p></div></section>
-</main>
+</div><div id="sec-nug" style="display:none"><section class="card"><h2 id="ntitle">Add a daily nugget</h2>
+<p class="hint">Upload the nugget picture and add the Bible reference. It shows first in Paragon Daily Nuggets on the website, with a Read verse button.</p>
+<div class="field"><label>Nugget picture</label>
+<div class="drop" id="ndrop" tabindex="0" role="button" aria-label="Add the nugget picture"><b>Tap to add the nugget picture</b><br>or drag it here. Tall pictures (like 4 by 5) look best.</div>
+<input type="file" id="nfile" accept="image/jpeg,image/png,image/webp,image/gif" hidden>
+<div class="imgp" id="nimgp"><img id="nprev" alt="Selected nugget preview" style="width:96px;height:120px"><button type="button" class="btn o sm" id="nimgrm">Change picture</button></div></div>
+<div class="field"><label for="nref">Bible reference <span style="font-weight:500;color:var(--mute)">(shows on the card)</span></label><input type="text" id="nref" maxlength="60" placeholder="For example: John 3:16" autocomplete="off"></div>
+<div class="field"><label for="ntext">Verse text <span style="font-weight:500;color:var(--mute)">(optional)</span></label><textarea id="ntext" style="min-height:110px" maxlength="1500" placeholder="Type the verse as you want it to appear when someone taps Read verse."></textarea>
+<p class="help">Only type verse text you are allowed to use. If you leave this empty, the website shows the KJV for the verses it already knows, or a link to read it online.</p></div>
+<div class="field"><label for="ntr">Translation name <span style="font-weight:500;color:var(--mute)">(optional)</span></label><input type="text" id="ntr" maxlength="20" placeholder="For example: KJV" autocomplete="off"></div>
+<div class="actions"><button type="button" class="btn" id="npub">Add nugget</button><button type="button" class="btn o" id="ncancel" style="display:none">Cancel editing</button></div>
+<div class="msg" id="nmsg" role="status"></div></section>
+<section class="card"><h2>Your nuggets</h2><p class="hint">The nuggets you add here. Edit or delete them any time. The ones already on the website stay as they are.</p><div id="nlist"><p class="empty">Loading…</p></div></section></div></main>
 <script>
 function parseBody(text){var blocks=[],list=null,lines=String(text).replace(/\r/g,'').split('\n');for(var i=0;i<lines.length;i++){var t=lines[i].trim(),m;if(!t){list=null;continue}
 if(m=/^##\s+(.*)$/.exec(t)){list=null;blocks.push({t:'h',x:m[1]});continue}
@@ -112,7 +127,7 @@ $('tw').onclick=function(){showTab(false)};$('tp').onclick=function(){showTab(tr
 
 /* ---------- picture ---------- */
 function setPreview(src){if(src){imgprev.src=src;imgp.style.display='flex';drop.style.display='none'}else{imgp.style.display='none';drop.style.display='block';imgprev.removeAttribute('src')}}
-function shrink(f){return new Promise(function(res,rej){var url=URL.createObjectURL(f),im=new Image();im.onload=function(){var max=1600,s=Math.min(1,max/Math.max(im.width,im.height)),w=Math.round(im.width*s),h=Math.round(im.height*s),c=document.createElement('canvas');c.width=w;c.height=h;var x=c.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,w,h);x.drawImage(im,0,0,w,h);URL.revokeObjectURL(url);res(c.toDataURL('image/jpeg',.85))};im.onerror=function(){URL.revokeObjectURL(url);rej(new Error('That picture could not be opened.'))};im.src=url})}
+function shrink(f,maxPx,qual){return new Promise(function(res,rej){var url=URL.createObjectURL(f),im=new Image();im.onload=function(){var max=maxPx||1600,s=Math.min(1,max/Math.max(im.width,im.height)),w=Math.round(im.width*s),h=Math.round(im.height*s),c=document.createElement('canvas');c.width=w;c.height=h;var x=c.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,w,h);x.drawImage(im,0,0,w,h);URL.revokeObjectURL(url);res(c.toDataURL('image/jpeg',qual||.85))};im.onerror=function(){URL.revokeObjectURL(url);rej(new Error('That picture could not be opened.'))};im.src=url})}
 function pick(f){if(!f)return;if(!/^image\//.test(f.type)){say('Please choose a picture file.','err');return}hideMsg();shrink(f).then(function(d){image=d;setPreview(d)}).catch(function(e){say(e.message,'err')})}
 drop.onclick=function(){file.click()};drop.onkeydown=function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();file.click()}};
 file.onchange=function(){pick(file.files[0]);file.value=''};
@@ -145,6 +160,43 @@ function load(){api(API).then(function(posts){list.innerHTML='';if(!posts.length
 function edit(id){hideMsg();api(API+'/'+id).then(function(p){reset();editing=p.id;title.value=p.title;body.value=p.body;existingImage=p.image||null;image=undefined;setPreview(existingImage);$('ftitle').textContent='Edit post';pub.textContent='Save changes';cancel.style.display='inline-flex';window.scrollTo({top:0,behavior:'smooth'})}).catch(function(e){say(e.message,'err')})}
 function remove(p,btn){if(btn.dataset.sure!=='1'){btn.dataset.sure='1';btn.textContent='Tap again to delete';setTimeout(function(){btn.dataset.sure='';btn.textContent='Delete'},4000);return}
  btn.disabled=true;api(API+'/'+p.id,{method:'DELETE'}).then(function(){if(editing===p.id)reset();say('Post deleted.','ok');load()}).catch(function(e){btn.disabled=false;say(e.message,'err')})}
+
+/* ---------- tabs ---------- */
+var secs={blog:$('sec-blog'),nug:$('sec-nug')};
+document.querySelector('.mtabs').addEventListener('click',function(e){var b=e.target.closest('.mt');if(!b)return;document.querySelectorAll('.mt').forEach(function(x){var on=x===b;x.classList.toggle('on',on);x.setAttribute('aria-selected',on)});
+ secs.blog.style.display=b.dataset.s==='blog'?'grid':'none';secs.nug.style.display=b.dataset.s==='nug'?'grid':'none';if(b.dataset.s==='nug')loadN()});
+
+/* ---------- daily nuggets ---------- */
+var NAPI='/api/nuggets',nimg=undefined,nexisting=null,nediting=null;
+var nfile=$('nfile'),ndrop=$('ndrop'),nimgp=$('nimgp'),nprev=$('nprev'),nmsg=$('nmsg'),npub=$('npub'),ncancel=$('ncancel'),nlist=$('nlist');
+function nsay(t,k,node){nmsg.className='msg '+(k||'ok');if(node){nmsg.innerHTML='';nmsg.appendChild(node)}else nmsg.textContent=t}
+function nhide(){nmsg.className='msg';nmsg.textContent=''}
+function nPrev(src){if(src){nprev.src=src;nimgp.style.display='flex';ndrop.style.display='none'}else{nimgp.style.display='none';ndrop.style.display='block';nprev.removeAttribute('src')}}
+function nPick(f){if(!f)return;if(!/^image\//.test(f.type)){nsay('Please choose a picture file.','err');return}nhide();shrink(f,1280,.82).then(function(d){nimg=d;nPrev(d)}).catch(function(e){nsay(e.message,'err')})}
+ndrop.onclick=function(){nfile.click()};ndrop.onkeydown=function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();nfile.click()}};
+nfile.onchange=function(){nPick(nfile.files[0]);nfile.value=''};
+['dragenter','dragover'].forEach(function(n){ndrop.addEventListener(n,function(e){e.preventDefault();ndrop.classList.add('over')})});
+['dragleave','drop'].forEach(function(n){ndrop.addEventListener(n,function(e){e.preventDefault();ndrop.classList.remove('over')})});
+ndrop.addEventListener('drop',function(e){nPick(e.dataTransfer.files[0])});
+$('nimgrm').onclick=function(){nfile.click()};
+function nReset(){nediting=null;nimg=undefined;nexisting=null;$('nref').value='';$('ntext').value='';$('ntr').value='';nPrev(null);$('ntitle').textContent='Add a daily nugget';npub.textContent='Add nugget';ncancel.style.display='none'}
+ncancel.onclick=function(){nReset();nhide()};
+npub.onclick=function(){nhide();if(!nediting&&!nimg){nsay('Please add the nugget picture.','err');return}
+ var payload={ref:$('nref').value.trim(),text:$('ntext').value.trim(),tr:$('ntr').value.trim()};if(nimg!==undefined)payload.image=nimg;
+ var wasEdit=!!nediting;npub.disabled=true;npub.textContent=wasEdit?'Saving…':'Adding…';
+ api(wasEdit?NAPI+'/'+nediting:NAPI,{method:wasEdit?'PUT':'POST',body:JSON.stringify(payload)}).then(function(){
+  var span=document.createElement('span');span.appendChild(document.createTextNode(wasEdit?'Saved! ':'Added! '));var a=document.createElement('a');a.href='/#nuggets';a.target='_blank';a.rel='noopener';a.textContent='See it on the website';span.appendChild(a);nsay('','ok',span);nReset();loadN()
+ }).catch(function(e){nsay(e.message,'err')}).then(function(){npub.disabled=false;npub.textContent=nediting?'Save changes':'Add nugget'})};
+function loadN(){api(NAPI).then(function(items){nlist.innerHTML='';if(!items.length){var p=document.createElement('p');p.className='empty';p.textContent='No nuggets added here yet.';nlist.appendChild(p);return}
+ items.forEach(function(n){var r=document.createElement('div');r.className='row';var im=document.createElement('img');im.className='th';im.src=n.image;im.alt='';
+  var t=document.createElement('div');t.className='t';var b=document.createElement('b');b.textContent=n.ref||'Daily nugget';var s=document.createElement('small');s.textContent=fmt(n.created);t.appendChild(b);t.appendChild(s);
+  var bs=document.createElement('div');bs.className='b';var ed=document.createElement('button');ed.type='button';ed.className='btn o sm';ed.textContent='Edit';ed.onclick=function(){nEdit(n)};
+  var del=document.createElement('button');del.type='button';del.className='btn red sm';del.textContent='Delete';del.onclick=function(){nRemove(n,del)};
+  bs.appendChild(ed);bs.appendChild(del);r.appendChild(im);r.appendChild(t);r.appendChild(bs);nlist.appendChild(r)})
+ }).catch(function(e){nlist.innerHTML='';var p=document.createElement('p');p.className='empty';p.textContent=e.message;nlist.appendChild(p)})}
+function nEdit(n){nhide();nReset();nediting=n.id;nexisting=n.image;$('nref').value=n.ref||'';$('ntext').value=n.text||'';$('ntr').value=n.tr||'';nimg=undefined;nPrev(n.image);$('ntitle').textContent='Edit nugget';npub.textContent='Save changes';ncancel.style.display='inline-flex';window.scrollTo({top:0,behavior:'smooth'})}
+function nRemove(n,btn){if(btn.dataset.sure!=='1'){btn.dataset.sure='1';btn.textContent='Tap again to delete';setTimeout(function(){btn.dataset.sure='';btn.textContent='Delete'},4000);return}
+ btn.disabled=true;api(NAPI+'/'+n.id,{method:'DELETE'}).then(function(){if(nediting===n.id)nReset();nsay('Nugget deleted.','ok');loadN()}).catch(function(e){btn.disabled=false;nsay(e.message,'err')})}
 load();
 })();
 </script>

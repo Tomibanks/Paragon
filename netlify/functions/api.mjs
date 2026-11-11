@@ -4,7 +4,12 @@
 //   POST   /api/posts          -> create a post  { title, body, image? }
 //   PUT    /api/posts/:id      -> update a post  { title, body, image? | null }
 //   DELETE /api/posts/:id      -> delete a post
-//   GET    /api/image/:id      -> the post's image
+//   GET    /api/image/:id      -> a post or nugget image
+//
+//   GET    /api/nuggets        -> Daily Nuggets (newest first)
+//   POST   /api/nuggets        -> add a nugget  { image, ref?, text?, tr? }
+//   PUT    /api/nuggets/:id    -> change a nugget
+//   DELETE /api/nuggets/:id    -> delete a nugget
 //
 // There is no login. If you ever want a simple passcode, set an environment
 // variable called ADMIN_PASSCODE in Netlify. The admin page will then ask for it.
@@ -65,6 +70,60 @@ function parseImage(dataUrl) {
   return { type, buffer };
 }
 
+async function handleNuggets(req, parts, images) {
+  const store = getStore({ name: "nuggets", consistency: "strong" });
+  const id = parts[1];
+  if (id && !ID_RE.test(id)) return json({ error: "Not found" }, 404);
+
+  if (req.method === "GET" && !id) {
+    const { blobs } = await store.list();
+    const all = (await Promise.all(blobs.map((b) => store.get(b.key, { type: "json" })))).filter(Boolean);
+    all.sort((a, b) => String(b.created).localeCompare(String(a.created)));
+    return json(all);
+  }
+  if (!["POST", "PUT", "DELETE"].includes(req.method)) return json({ error: "Method not allowed" }, 405);
+  if (!isAuthorised(req)) return json({ error: "A passcode is needed." }, 401);
+
+  if (req.method === "DELETE") {
+    if (!id) return json({ error: "Missing nugget id" }, 400);
+    await store.delete(id);
+    await images.delete(`nugget-${id}`);
+    return json({ ok: true });
+  }
+
+  if (Number(req.headers.get("content-length") || 0) > 7 * 1024 * 1024) return json({ error: "That upload is too large." }, 413);
+  let input;
+  try {
+    input = await req.json();
+  } catch (_) {
+    return json({ error: "Invalid request." }, 400);
+  }
+  const ref = clean(input.ref, 60);
+  const text = clean(input.text, 1500);
+  const tr = clean(input.tr, 20);
+
+  let existing = null;
+  if (req.method === "PUT") {
+    if (!id) return json({ error: "Missing nugget id" }, 400);
+    existing = await store.get(id, { type: "json" });
+    if (!existing) return json({ error: "Nugget not found" }, 404);
+  }
+  const nid = existing ? existing.id : Date.now().toString(36);
+  let image = existing ? existing.image : null;
+  const hasNew = typeof input.image === "string" && input.image.startsWith("data:");
+  if (!existing && !hasNew) return json({ error: "Please add the nugget picture." }, 400);
+  if (hasNew) {
+    const parsed = parseImage(input.image);
+    if (parsed.error) return json({ error: parsed.error }, 400);
+    await images.set(`nugget-${nid}`, parsed.buffer, { metadata: { contentType: parsed.type } });
+    image = `/api/image/nugget-${nid}?v=${Date.now().toString(36)}`;
+  }
+  const now = new Date().toISOString();
+  const nugget = { id: nid, ref, text, tr, image, created: existing ? existing.created : now, updated: now };
+  await store.setJSON(nid, nugget);
+  return json(nugget, existing ? 200 : 201);
+}
+
 export default async (req) => {
   const url = new URL(req.url);
   const parts = url.pathname.replace(/^\/api\/?/, "").split("/").filter(Boolean);
@@ -85,6 +144,8 @@ export default async (req) => {
         },
       });
     }
+
+    if (parts[0] === "nuggets") return await handleNuggets(req, parts, images);
 
     if (parts[0] !== "posts") return json({ error: "Not found" }, 404);
     const id = parts[1];

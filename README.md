@@ -2,9 +2,9 @@
 
 ## What is in this folder
 - `public/index.html`   the website
-- `public/admin.html`   the blog admin page (you open it at `/admin`)
+- `public/admin.html`   the admin page for blog posts and Daily Nuggets (you open it at `/admin`)
 - `public/_redirects`   makes `/admin` open the admin page
-- `netlify/functions/api.mjs`   the small service that saves and shows blog posts
+- `netlify/functions/api.mjs`   the small service that saves and shows blog posts and nuggets
 - `netlify.toml` and `package.json`   settings Netlify reads (no need to change these)
 
 ## Easiest way to put it online (no coding)
@@ -27,6 +27,12 @@ A site made by dragging a folder cannot be switched to GitHub, so Netlify makes 
 Before step 4, rename the old one: open the old site, **Site configuration**, **Change site name**,
 and call it something else (for example `ehccparagon-old`). After step 5, open the new site,
 **Site configuration**, **Change site name**, and type `ehccparagon`.
+
+## Adding Daily Nuggets
+1. Open `your-site-address/admin` and tap **Daily nuggets** at the top.
+2. Add the nugget picture, type the Bible reference (for example John 3:16) and press **Add nugget**.
+3. It shows first in Paragon Daily Nuggets on the website. A **Read verse** button appears when you add a reference.
+4. Optional: type the verse text (only text you are allowed to use). People then see it when they tap **Read verse**. If you leave it empty, the site shows the KJV for verses it already knows, or a link to read it online.
 
 ## Writing a post
 1. Open `your-site-address/admin`.
