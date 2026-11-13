@@ -969,6 +969,15 @@ function count(){w.querySelectorAll('.web-st b').forEach(b=>{const n=+b.dataset.
 function stop(){clearTimeout(tm);clearTimeout(tc);cancelAnimationFrame(raf);w.removeAttribute('data-demo');bar.textContent='build-with-ai';btns.forEach(b=>b.classList.remove('on'));w.querySelectorAll('.web-st b').forEach(b=>b.textContent='0');cur=null}
 function play(k,b){if(cur===k){stop();return}stop();void w.offsetWidth;cur=k;w.setAttribute('data-demo',k);bar.textContent=T[k];b.classList.add('on');if(k==='plat')tc=setTimeout(count,rm?0:700);if(innerWidth<=860)w.scrollIntoView({behavior:rm?'auto':'smooth',block:'center'});tm=setTimeout(stop,rm?30000:D[k])}
 btns.forEach(b=>b.onclick=()=>{document.querySelector('.nx-t').classList.add('used');play(b.dataset.d,b)})})();
+
+(function(){if(navigator.doNotTrack==='1'||window.doNotTrack==='1'||navigator.msDoNotTrack==='1')return;
+const send=o=>{try{const b=JSON.stringify(o);if(navigator.sendBeacon){navigator.sendBeacon('/api/track',new Blob([b],{type:'application/json'}))}else fetch('/api/track',{method:'POST',body:b,headers:{'content-type':'application/json'},keepalive:true}).catch(()=>{})}catch(e){}};
+const path=()=>{const h=location.hash.slice(1);if(h==='blog')return'/blog';if(h.indexOf('post-')===0)return'/post/'+h.slice(5).toLowerCase().replace(/[^a-z0-9-]/g,'').slice(0,90);return'/'};
+let first=true,last=null;
+function view(){const p=path();if(p===last)return;last=p;let r='';if(first&&document.referrer){try{const u=new URL(document.referrer);if(u.host!==location.host)r=u.host.replace(/^www\./,'')}catch(e){}}send({t:'view',p:p,first:first,r:r});first=false}
+view();addEventListener('hashchange',view);
+try{const ps=history.pushState;history.pushState=function(){const r=ps.apply(this,arguments);setTimeout(view,0);return r}}catch(e){}
+document.addEventListener('click',e=>{const a=e.target.closest&&e.target.closest('a[href]');if(!a)return;const h=a.href;let k='';if(/chat\.whatsapp\.com/.test(h))k='whatsapp';else if(/instagram\.com/.test(h))k='instagram';else if(/forms\.gle/.test(h))k='register';else if(/enthronementassembly\.org/.test(h))k='church';else if(a.classList.contains('sh-n'))k='share';if(k)send({t:'click',k:k})},true)})();
 </script>
 </body>
 </html>

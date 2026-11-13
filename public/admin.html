@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex, nofollow">
-<title>Blog admin · The Paragons</title>
+<title>Admin · The Paragons</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%91%91%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -52,12 +52,17 @@ textarea{min-height:320px;resize:vertical;line-height:1.7}
 @media(max-width:600px){.card{padding:20px 16px;border-radius:22px}.row{flex-wrap:wrap}.row .b{width:100%;justify-content:flex-start}.tabs{margin-left:0}textarea{min-height:260px}}
 .mtabs{display:flex;gap:8px;background:#fff;border:1px solid var(--line);border-radius:99px;padding:6px;box-shadow:0 10px 30px rgba(38,0,51,.08)}
 .mt{flex:1;border:0;background:none;border-radius:99px;padding:11px 16px;font:700 .95rem "DM Sans",sans-serif;color:var(--mute);cursor:pointer;transition:all .2s}.mt:hover{color:var(--mag)}.mt.on{background:linear-gradient(135deg,#9900cc,#260033);color:#fff;box-shadow:0 6px 16px rgba(153,0,204,.3)}
-#sec-blog,#sec-nug{display:grid;gap:18px}.row .th{flex:none;width:56px;height:70px;object-fit:cover;border-radius:10px;border:1px solid var(--line);background:var(--soft)}
+#sec-blog,#sec-nug,#sec-vis{display:grid;gap:18px}.row .th{flex:none;width:56px;height:70px;object-fit:cover;border-radius:10px;border:1px solid var(--line);background:var(--soft)}
+.vh{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap;margin-bottom:18px}.rng{display:flex;gap:6px;background:var(--soft);border-radius:99px;padding:4px}.rng button{border:0;background:none;border-radius:99px;padding:8px 14px;font:700 .85rem "DM Sans",sans-serif;color:var(--mute);cursor:pointer}.rng button.on{background:var(--deep);color:#fff}
+.kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:18px}.kpi{background:var(--soft);border-radius:18px;padding:14px 16px}.kpi small{display:block;color:var(--mute);font-weight:600;font-size:.78rem}.kpi b{display:block;font:800 1.9rem/1.1 "Bricolage Grotesque",sans-serif;color:var(--deep);font-variant-numeric:tabular-nums}
+.chart svg{display:block;width:100%;height:auto}.legend{display:flex;gap:16px;font-size:.85rem;color:var(--mute);margin-top:6px}.legend i{display:inline-block;width:12px;height:12px;border-radius:4px;margin-right:6px;vertical-align:-1px}.legend .v{background:#9900cc}.legend .w{background:#e3b3ff;border:2px solid #260033}.note{font-size:.85rem;color:var(--mute);margin:12px 0 0}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px}.grid2 .card h3{font-size:1.15rem;margin-bottom:12px}.bl{margin-bottom:10px}.bl .t{display:flex;justify-content:space-between;gap:10px;font-size:.92rem}.bl .t span:first-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.bl .t b{font-variant-numeric:tabular-nums;color:var(--deep)}.bl .bar{height:7px;border-radius:5px;background:var(--soft);margin-top:4px;overflow:hidden}.bl .bar i{display:block;height:100%;border-radius:5px;background:linear-gradient(90deg,#9900cc,#c44dff)}
+@media(max-width:700px){.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}.grid2{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
-<header class="top"><div class="top-in"><div class="brand"><span style="font-size:1.8rem" aria-hidden="true">👑</span><div><b>Blog admin</b><span>The Paragons</span></div></div><a class="site" href="/#blog" target="_blank" rel="noopener">View the blog</a></div></header>
-<main class="wrap"><nav class="mtabs" role="tablist" aria-label="What to manage"><button type="button" class="mt on" data-s="blog" role="tab" aria-selected="true">Blog posts</button><button type="button" class="mt" data-s="nug" role="tab" aria-selected="false">Daily nuggets</button></nav><div id="sec-blog">
+<header class="top"><div class="top-in"><div class="brand"><span style="font-size:1.8rem" aria-hidden="true">👑</span><div><b>Admin</b><span>The Paragons</span></div></div><a class="site" href="/#blog" target="_blank" rel="noopener">View the blog</a></div></header>
+<main class="wrap"><nav class="mtabs" role="tablist" aria-label="What to manage"><button type="button" class="mt on" data-s="blog" role="tab" aria-selected="true">Blog posts</button><button type="button" class="mt" data-s="nug" role="tab" aria-selected="false">Daily nuggets</button><button type="button" class="mt" data-s="vis" role="tab" aria-selected="false">Visitors</button></nav><div id="sec-blog">
 <section class="card" id="formcard">
 <h2 id="ftitle">Write a new post</h2>
 <p class="hint">Fill in the title and the article, add a picture if you like, then press Publish. It shows on the website straight away.</p>
@@ -77,7 +82,14 @@ textarea{min-height:320px;resize:vertical;line-height:1.7}
 <div class="msg" id="msg" role="status"></div>
 </section>
 <section class="card"><h2>Your posts</h2><p class="hint">Posts you publish here. Edit or delete them any time.</p><div id="list"><p class="empty">Loading…</p></div></section>
-</div><div id="sec-nug" style="display:none"><section class="card"><h2 id="ntitle">Add a daily nugget</h2>
+</div><div id="sec-vis" style="display:none"><section class="card"><div class="vh"><div><h2>Visitors</h2><p class="hint" style="margin:0">Anonymous numbers only: no names, no cookies and no IP addresses are kept.</p></div><div class="rng" id="rng"><button type="button" data-d="7">7 days</button><button type="button" data-d="30" class="on">30 days</button><button type="button" data-d="90">90 days</button></div></div>
+<div class="kpis" id="kpis"></div><div class="chart" id="chart" role="img" aria-label="Daily visitors and page views"></div>
+<div class="legend"><span><i class="v"></i>Visitors</span><span><i class="w"></i>Page views</span></div>
+<p class="note">A visitor is counted once per day, so someone who returns on another day is counted again. Numbers can be a little lower than the real total when two people share one connection.</p></section>
+<div class="grid2"><section class="card"><h3>Pages viewed</h3><div id="lpages"></div></section><section class="card"><h3>Blog posts read</h3><div id="lposts"></div></section>
+<section class="card"><h3>Where visitors come from</h3><div id="lrefs"></div></section><section class="card"><h3>Countries</h3><div id="lcc"></div></section>
+<section class="card"><h3>Devices</h3><div id="ldev"></div></section><section class="card"><h3>Buttons tapped</h3><div id="lclk"></div></section></div>
+<div class="msg" id="vmsg" role="status"></div></div><div id="sec-nug" style="display:none"><section class="card"><h2 id="ntitle">Add a daily nugget</h2>
 <p class="hint">Upload the nugget picture and add the Bible reference. It shows first in Paragon Daily Nuggets on the website, with a Read verse button.</p>
 <div class="field"><label>Nugget picture</label>
 <div class="drop" id="ndrop" tabindex="0" role="button" aria-label="Add the nugget picture"><b>Tap to add the nugget picture</b><br>or drag it here. Tall pictures (like 4 by 5) look best.</div>
@@ -162,9 +174,9 @@ function remove(p,btn){if(btn.dataset.sure!=='1'){btn.dataset.sure='1';btn.textC
  btn.disabled=true;api(API+'/'+p.id,{method:'DELETE'}).then(function(){if(editing===p.id)reset();say('Post deleted.','ok');load()}).catch(function(e){btn.disabled=false;say(e.message,'err')})}
 
 /* ---------- tabs ---------- */
-var secs={blog:$('sec-blog'),nug:$('sec-nug')};
+var secs={blog:$('sec-blog'),nug:$('sec-nug'),vis:$('sec-vis')},vtimer=null;
 document.querySelector('.mtabs').addEventListener('click',function(e){var b=e.target.closest('.mt');if(!b)return;document.querySelectorAll('.mt').forEach(function(x){var on=x===b;x.classList.toggle('on',on);x.setAttribute('aria-selected',on)});
- secs.blog.style.display=b.dataset.s==='blog'?'grid':'none';secs.nug.style.display=b.dataset.s==='nug'?'grid':'none';if(b.dataset.s==='nug')loadN()});
+ Object.keys(secs).forEach(function(k){secs[k].style.display=k===b.dataset.s?'grid':'none'});clearInterval(vtimer);if(b.dataset.s==='nug')loadN();if(b.dataset.s==='vis'){vload();vtimer=setInterval(vload,60000)}});
 
 /* ---------- daily nuggets ---------- */
 var NAPI='/api/nuggets',nimg=undefined,nexisting=null,nediting=null;
@@ -197,6 +209,32 @@ function loadN(){api(NAPI).then(function(items){nlist.innerHTML='';if(!items.len
 function nEdit(n){nhide();nReset();nediting=n.id;nexisting=n.image;$('nref').value=n.ref||'';$('ntext').value=n.text||'';$('ntr').value=n.tr||'';nimg=undefined;nPrev(n.image);$('ntitle').textContent='Edit nugget';npub.textContent='Save changes';ncancel.style.display='inline-flex';window.scrollTo({top:0,behavior:'smooth'})}
 function nRemove(n,btn){if(btn.dataset.sure!=='1'){btn.dataset.sure='1';btn.textContent='Tap again to delete';setTimeout(function(){btn.dataset.sure='';btn.textContent='Delete'},4000);return}
  btn.disabled=true;api(NAPI+'/'+n.id,{method:'DELETE'}).then(function(){if(nediting===n.id)nReset();nsay('Nugget deleted.','ok');loadN()}).catch(function(e){btn.disabled=false;nsay(e.message,'err')})}
+
+/* ---------- visitors ---------- */
+var vdays=30,vmsg=$('vmsg'),NS='http://www.w3.org/2000/svg';
+function vload(){api('/api/stats?days='+vdays).then(function(d){vmsg.className='msg';vmsg.textContent='';vrender(d)}).catch(function(e){vmsg.className='msg err';vmsg.textContent=e.message})}
+document.getElementById('rng').addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;vdays=+b.dataset.d;document.querySelectorAll('#rng button').forEach(function(x){x.classList.toggle('on',x===b)});vload()});
+function num(n){return Number(n||0).toLocaleString()}
+function kpi(l,v){var d=document.createElement('div');d.className='kpi';var s=document.createElement('small');s.textContent=l;var b=document.createElement('b');b.textContent=num(v);d.appendChild(s);d.appendChild(b);return d}
+function el(n,at){var e=document.createElementNS(NS,n);for(var k in at)e.setAttribute(k,at[k]);return e}
+function shortDay(s){var p=s.split('-');return new Date(+p[0],+p[1]-1,+p[2]).toLocaleDateString(undefined,{day:'numeric',month:'short'})}
+function chart(series){var host=$('chart');host.innerHTML='';var W=700,H=190,L=34,B=24,T=10,n=series.length,mx=Math.max(1,Math.max.apply(null,series.map(function(x){return Math.max(x.views,x.visitors)}))),step=Math.pow(10,Math.floor(Math.log10(mx))),top=Math.ceil(mx/step)*step;if(top/step<3)top=Math.ceil(mx/(step/2))*(step/2);
+ var svg=el('svg',{viewBox:'0 0 '+W+' '+H});var pw=(W-L)/n,ph=H-B-T;
+ for(var g=0;g<=4;g++){var y=T+ph-ph*g/4;svg.appendChild(el('line',{x1:L,x2:W,y1:y,y2:y,stroke:'#e8dff0','stroke-width':1}));var t=el('text',{x:L-6,y:y+4,'text-anchor':'end','font-size':10,fill:'#6a5775'});t.textContent=Math.round(top*g/4);svg.appendChild(t)}
+ var pts=[];series.forEach(function(s,i){var x=L+i*pw,bw=Math.max(2,pw*.62),h=ph*s.visitors/top,r=el('rect',{x:x+(pw-bw)/2,y:T+ph-h,width:bw,height:h,rx:Math.min(3,bw/2),fill:'#9900cc'});var tt=el('title',{});tt.textContent=shortDay(s.d)+': '+s.visitors+' visitors, '+s.views+' page views';r.appendChild(tt);svg.appendChild(r);pts.push((x+pw/2).toFixed(1)+','+(T+ph-ph*s.views/top).toFixed(1))});
+ svg.appendChild(el('polyline',{points:pts.join(' '),fill:'none',stroke:'#260033','stroke-width':2,'stroke-linejoin':'round'}));
+ [0,Math.floor((n-1)/2),n-1].forEach(function(i,k){var t=el('text',{x:L+i*pw+pw/2,y:H-6,'text-anchor':k===0?'start':k===2?'end':'middle','font-size':10,fill:'#6a5775'});t.textContent=shortDay(series[i].d);svg.appendChild(t)});host.appendChild(svg)}
+function blist(id,items,label,val){var h=$(id);h.innerHTML='';if(!items.length){var p=document.createElement('p');p.className='empty';p.textContent='Nothing yet.';h.appendChild(p);return}var mx=Math.max.apply(null,items.map(val));
+ items.forEach(function(it){var r=document.createElement('div');r.className='bl';var t=document.createElement('div');t.className='t';var a=document.createElement('span');a.textContent=label(it);var b=document.createElement('b');b.textContent=num(val(it));t.appendChild(a);t.appendChild(b);var bar=document.createElement('div');bar.className='bar';var i=document.createElement('i');i.style.width=Math.max(3,Math.round(100*val(it)/mx))+'%';bar.appendChild(i);r.appendChild(t);r.appendChild(bar);h.appendChild(r)})}
+function vrender(d){var k=$('kpis');k.innerHTML='';k.appendChild(kpi('Visitors today',d.today.visitors));k.appendChild(kpi('Page views today',d.today.views));k.appendChild(kpi('Visitors, last '+d.days+' days',d.totals.visitors));k.appendChild(kpi('Page views, last '+d.days+' days',d.totals.views));
+ chart(d.series);
+ var P={'/':'Home page','/blog':'Blog page'},C={whatsapp:'Join WhatsApp',instagram:'Instagram',register:'Register (form)',church:'Enthronement Assembly website',share:'Share a blog post'};
+ blist('lpages',d.pages,function(x){return P[x.p]||x.p},function(x){return x.n});
+ blist('lposts',d.posts,function(x){return x.title},function(x){return x.n});
+ blist('lrefs',d.referrers,function(x){return x.host==='direct'?'Direct, or unknown (typed link, WhatsApp, etc.)':x.host},function(x){return x.n});
+ blist('lcc',d.countries,function(x){return x.name},function(x){return x.n});
+ blist('ldev',[['Mobile',d.devices.mobile],['Desktop',d.devices.desktop],['Tablet',d.devices.tablet]].filter(function(x){return x[1]>0}),function(x){return x[0]},function(x){return x[1]});
+ blist('lclk',Object.keys(d.clicks).sort(function(a,b){return d.clicks[b]-d.clicks[a]}).map(function(x){return[x,d.clicks[x]]}),function(x){return C[x[0]]||x[0]},function(x){return x[1]})}
 load();
 })();
 </script>

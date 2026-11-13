@@ -2,9 +2,9 @@
 
 ## What is in this folder
 - `public/index.html`   the website
-- `public/admin.html`   the admin page for blog posts and Daily Nuggets (you open it at `/admin`)
+- `public/admin.html`   the admin page for blog posts, Daily Nuggets and Visitors (you open it at `/admin`)
 - `public/_redirects`   makes `/admin` open the admin page
-- `netlify/functions/api.mjs`   the small service that saves and shows blog posts and nuggets
+- `netlify/functions/api.mjs`   the small service that saves blog posts and nuggets and counts visitors
 - `netlify.toml` and `package.json`   settings Netlify reads (no need to change these)
 
 ## Easiest way to put it online (no coding)
@@ -33,6 +33,12 @@ and call it something else (for example `ehccparagon-old`). After step 5, open t
 2. Add the nugget picture, type the Bible reference (for example John 3:16) and press **Add nugget**.
 3. It shows first in Paragon Daily Nuggets on the website. A **Read verse** button appears when you add a reference.
 4. Optional: type the verse text (only text you are allowed to use). People then see it when they tap **Read verse**. If you leave it empty, the site shows the KJV for verses it already knows, or a link to read it online.
+
+## Seeing your visitors
+Open `your-site-address/admin` and tap **Visitors**. You will see visitors and page views today and over the last 7, 30 or 90 days, a daily chart, the pages and blog posts people read, where they came from (Google, WhatsApp, Instagram and so on), their countries, whether they use phones or computers, and how many tapped Join WhatsApp, Instagram, Register or Share.
+- The numbers are anonymous: no names, no cookies, no IP addresses are saved.
+- A visitor is counted once per day. Robots, search engines and the admin page itself are not counted. People who switch on "Do Not Track" in their browser are not counted.
+- Numbers only start counting after the site is live on Netlify with this version.
 
 ## Writing a post
 1. Open `your-site-address/admin`.
